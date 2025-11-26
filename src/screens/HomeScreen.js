@@ -17,24 +17,23 @@ export default function HomeScreen() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Estados do Modal e Edição
+ 
   const [modalVisible, setModalVisible] = useState(false);
 
-  // MUDANÇA 1: Usando 'title' em vez de 'nome'
+ 
   const [title, setTitle] = useState("");
   const [editandoId, setEditandoId] = useState(null);
 
-  // --- LEITURA ---
+ 
   function loadItems() {
     setLoading(true);
     api
       .get("/items")
       .then((res) => {
-        // O backend retorna um array direto: [{id: "...", title: "...", description: "..."}]
         setItems(res.data);
       })
       .catch((err) => {
-        console.log(err); // Importante para debug
+        console.log(err);
         Alert.alert(
           "Erro",
           "Falha ao carregar dados. Verifique se o servidor está rodando."
@@ -47,11 +46,11 @@ export default function HomeScreen() {
     loadItems();
   }, []);
 
-  // --- ABRIR MODAL ---
+ 
   function openModal(item = null) {
     if (item) {
       setEditandoId(item.id);
-      setTitle(item.title); // MUDANÇA 2: Carrega o title
+      setTitle(item.title); 
     } else {
       setEditandoId(null);
       setTitle("");
@@ -59,7 +58,7 @@ export default function HomeScreen() {
     setModalVisible(true);
   }
 
-  // --- SALVAR (CREATE / UPDATE) ---
+ 
   async function handleSave() {
     if (!title.trim()) return;
 
@@ -67,10 +66,10 @@ export default function HomeScreen() {
       setModalVisible(false);
       setLoading(true);
 
-      // Objeto que o seu server.js espera
+      
       const dadosParaEnviar = {
         title: title,
-        description: "Criado pelo App Mobile", // Opcional, já que seu back trata isso
+        description: "Criado pelo App Mobile",
       };
 
       if (editandoId) {
@@ -88,7 +87,7 @@ export default function HomeScreen() {
     }
   }
 
-  // --- EXCLUIR ---
+ 
   function handleDelete(id) {
     console.log("Tentando excluir o ID:", id);
     Alert.alert("Excluir", "Tem certeza?", [
@@ -110,11 +109,11 @@ export default function HomeScreen() {
     ]);
   }
 
-  // --- RENDERIZAÇÃO ---
+
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.cardContent}>
-        {/* MUDANÇA 3: Exibindo item.title */}
+        {}
         <Text style={styles.cardTitle}>{item.title}</Text>
         <Text style={styles.cardSubtitle}>
           {item.description || "Sem descrição"}
@@ -159,7 +158,7 @@ export default function HomeScreen() {
       ) : (
         <FlatList
           data={items}
-          keyExtractor={(item) => String(item.id)} // Seu server usa nanoid (string), então ok
+          keyExtractor={(item) => String(item.id)}
           renderItem={renderItem}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
@@ -190,7 +189,7 @@ export default function HomeScreen() {
               style={styles.input}
               placeholder="Título do item..."
               value={title}
-              onChangeText={setTitle} // Atualiza o estado title
+              onChangeText={setTitle}
               autoFocus
             />
 
