@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: "http://localhost:3333", 
 
   // OU se estiver no celular Android físico:
-  baseURL: "http://192.168.1.12:3333",
+  baseURL: "http://SEU_IP_LOCAL:3333",
 });
 
 export { api };
